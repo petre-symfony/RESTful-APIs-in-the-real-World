@@ -26,5 +26,6 @@ $url = $response->getHeader('Location');
 $request = $client->get($url);
 $response = $request->send();
 
+
 echo $response;
 echo "\n\n";
