@@ -14,8 +14,10 @@ class ProgrammerController extends BaseController {
     $controllers->post('/api/programmers', array($this, 'newAction'));
   }
   
-  public function newAction(){
-    return 'Let\'s Battle!';
+  public function newAction(Request $request){
+    $data = $request->getContent();
+    
+    return $data;
   }
 
 }

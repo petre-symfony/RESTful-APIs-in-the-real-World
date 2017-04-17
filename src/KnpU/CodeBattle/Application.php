@@ -154,8 +154,9 @@ class Application extends SilexApplication {
       return new BattleRepository($app['db'], $app['repository_container']);
     });
     $this['repository.api_token'] = $this->share(function() use ($app) {
-    });
       return new ApiTokenRepository($app['db'], $app['repository_container']);
+    });
+      
     $this['repository_container'] = $this->share(function() use ($app) {
       return new RepositoryContainer($app, array(
         'user' => 'repository.user',
