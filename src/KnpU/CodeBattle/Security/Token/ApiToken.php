@@ -4,30 +4,28 @@ namespace KnpU\CodeBattle\Security\Token;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ApiToken
-{
+class ApiToken {
 
-    /* All public properties are persisted */
-    public $id;
+  /* All public properties are persisted */
+  public $id;
 
-    public $token;
+  public $token;
 
-    /**
-     * @Assert\NotBlank(message="Please add some notes about this token")
-     */
-    public $notes;
+  /**
+   * @Assert\NotBlank(message="Please add some notes about this token")
+   */
+  public $notes;
 
-    public $userId;
+  public $userId;
 
-    /**
-     * @var \DateTime
-     */
-    public $createdAt;
+  /**
+   * @var \DateTime
+   */
+  public $createdAt;
 
-    public function __construct($userId)
-    {
-        $this->userId = $userId;
-        $this->createdAt = new \DateTime();
-        $this->token = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
-    }
+  public function __construct($userId) {
+    $this->userId = $userId;
+    $this->createdAt = new \DateTime();
+    $this->token = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+  }
 }

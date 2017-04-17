@@ -17,10 +17,10 @@ $app = require_once __DIR__.'/../app/bootstrap.php';
 $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
 $port = isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : null;
 if (
-    !in_array($port, array('80', '443'))
-    && (false === $pos = strrpos($host, ':'))
+  !in_array($port, array('80', '443'))
+  && (false === $pos = strrpos($host, ':'))
 ) {
-    $_SERVER['HTTP_HOST'] .= ':'.$port;
+  $_SERVER['HTTP_HOST'] .= ':'.$port;
 }
 
 $request = Request::createFromGlobals();

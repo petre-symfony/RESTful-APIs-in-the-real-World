@@ -5,32 +5,30 @@ namespace KnpU\CodeBattle\Model;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Programmer
-{
+class Programmer {
 
-    /* All public properties are persisted */
-    public $id;
+  /* All public properties are persisted */
+  public $id;
 
-    public $nickname;
+  public $nickname;
 
-    /**
-     * Number of an avatar, from 1-6
-     *
-     * @var integer
-     */
-    public $avatarNumber;
+  /**
+   * Number of an avatar, from 1-6
+   *
+   * @var integer
+   */
+  public $avatarNumber;
 
-    public $tagLine;
+  public $tagLine;
 
-    public $userId;
+  public $userId;
 
-    public $powerLevel = 0;
+  public $powerLevel = 0;
 
-    public function __construct($nickname = null, $avatarNumber = null)
-    {
-        $this->nickname = $nickname;
-        $this->avatarNumber = $avatarNumber;
-    }
+  public function __construct($nickname = null, $avatarNumber = null) {
+    $this->nickname = $nickname;
+    $this->avatarNumber = $avatarNumber;
+  }
 
 
 }

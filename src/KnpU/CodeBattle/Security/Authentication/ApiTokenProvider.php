@@ -14,62 +14,58 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
  * the token string found in ApiTokenListener. If it's found, the related
  * User object is found and authenticated.
  */
-class ApiTokenProvider implements AuthenticationProviderInterface
-{
-    private $userRepository;
+class ApiTokenProvider implements AuthenticationProviderInterface {
+  private $userRepository;
 
-    private $apiTokenRepository;
+  private $apiTokenRepository;
 
-    public function __construct(UserRepository $userRepository, ApiTokenRepository $apiTokenRepository)
-    {
-        $this->userRepository = $userRepository;
-        $this->apiTokenRepository = $apiTokenRepository;
+  public function __construct(UserRepository $userRepository, ApiTokenRepository $apiTokenRepository) {
+    $this->userRepository = $userRepository;
+    $this->apiTokenRepository = $apiTokenRepository;
+  }
+
+  /**
+   * Looks up the token and loads the user based on it
+   *
+   * @param TokenInterface $token
+   * @return ApiAuthToken|TokenInterface
+   * @throws \Symfony\Component\Security\Core\Exception\AuthenticationException
+   * @throws \Exception
+   */
+  public function authenticate(TokenInterface $token) {
+    // the actual token string value from the header - e.g. ABCDEFG
+    $tokenString = $token->getCredentials();
+
+    return;
+    // find the ApiToken object in the database based on the TokenString
+    // $apiToken = // todo
+
+    if (!$apiToken) {
+      throw new BadCredentialsException('Invalid token');
     }
 
-    /**
-     * Looks up the token and loads the user based on it
-     *
-     * @param TokenInterface $token
-     * @return ApiAuthToken|TokenInterface
-     * @throws \Symfony\Component\Security\Core\Exception\AuthenticationException
-     * @throws \Exception
-     */
-    public function authenticate(TokenInterface $token)
-    {
-        // the actual token string value from the header - e.g. ABCDEFG
-        $tokenString = $token->getCredentials();
-
-        return;
-        // find the ApiToken object in the database based on the TokenString
-        // $apiToken = // todo
-
-        if (!$apiToken) {
-            throw new BadCredentialsException('Invalid token');
-        }
-
-        // look up the user based on the ApiToken.userId value
-        // $user = // todo
-        if (!$user) {
-            throw new \Exception('A token without a user? Some crazy things are happening');
-        }
-
-        $authenticatedToken = new ApiAuthToken($user->getRoles());
-        $authenticatedToken->setUser($user);
-        $authenticatedToken->setAuthenticated(true);
-
-        return $authenticatedToken;
+    // look up the user based on the ApiToken.userId value
+    // $user = // todo
+    if (!$user) {
+      throw new \Exception('A token without a user? Some crazy things are happening');
     }
 
-    /**
-     * Checks whether this provider supports the given token.
-     *
-     * @param TokenInterface $token A TokenInterface instance
-     *
-     * @return Boolean true if the implementation supports the Token, false otherwise
-     */
-    public function supports(TokenInterface $token)
-    {
-        return $token instanceof ApiAuthToken;
-    }
+    $authenticatedToken = new ApiAuthToken($user->getRoles());
+    $authenticatedToken->setUser($user);
+    $authenticatedToken->setAuthenticated(true);
+
+    return $authenticatedToken;
+  }
+
+  /**
+   * Checks whether this provider supports the given token.
+   *
+   * @param TokenInterface $token A TokenInterface instance
+   *
+   * @return Boolean true if the implementation supports the Token, false otherwise
+   */
+  public function supports(TokenInterface $token){
+    return $token instanceof ApiAuthToken;
+  }
 
 } 
