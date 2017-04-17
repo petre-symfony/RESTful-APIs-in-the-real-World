@@ -8,6 +8,7 @@ use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use KnpU\CodeBattle\Model\Programmer;
 
 class ProgrammerController extends BaseController {
   protected function addRoutes(ControllerCollection $controllers) {
@@ -15,9 +16,17 @@ class ProgrammerController extends BaseController {
   }
   
   public function newAction(Request $request){
-    $data = $request->getContent();
+    $data = json_decode($request->getContent(), true);
     
-    return $data;
+    $programmer = new Programmer();
+    $programmer->nickname = $data['nickname'];
+    $programmer->avatarNumber = $data['avatarNumber'];
+    $programmer->tagLine = $data['tagLine'];
+    $programmer->userId = $this->findUserByUsername('weaverryan')->id;
+    
+    $this->save($programmer);
+    
+    return 'It worked! Trust me, I\'m an API';
   }
 
 }
