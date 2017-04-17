@@ -95,9 +95,17 @@ class ProgrammerController extends BaseController {
   private function handleRequest(Request $request, Programmer $programmer){
     $data = json_decode($request->getContent(), true);
     
-    $programmer->nickname = $data['nickname'];
-    $programmer->avatarNumber = $data['avatarNumber'];
-    $programmer->tagLine = $data['tagLine'];
+    if ($data === null){
+      throw new Exception('Invalid JSON!!!!', $request->getContent());
+    }
+    
+    $apiProperties = array('nickname', 'avatarNumber', 'tagLine');
+    
+    foreach ($apiProperties as $property){
+      $val = isset($data[$property]) ? $data[$property] : null;
+      $programmer->$property = $val;
+    }
+    
     $programmer->userId = $this->findUserByUsername('weaverryan')->id;
     
     $this->save($programmer); 
