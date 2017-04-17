@@ -34,7 +34,19 @@ class ProgrammerController extends BaseController {
   }
   
   public function showAction($nickname){
-    return 'So you\'re looking for ' . $nickname;
+    $programmer = $this->getProgrammerRepository()
+      ->findOneByNickname($nickname);
+    
+    $data = array(
+      'nickname' => $programmer->nickname,
+      'avatarNumber' => $programmer->avatarNumber,
+      'powerLevel' => $programmer->powerLevel,
+      'tagLine' => $programmer->tagLine  
+    );
+    
+    $response = new Response(json_encode($data), 200);
+    
+    return $response;
   }
 
 }
