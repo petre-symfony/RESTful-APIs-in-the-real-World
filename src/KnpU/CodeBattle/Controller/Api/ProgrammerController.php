@@ -94,12 +94,17 @@ class ProgrammerController extends BaseController {
   
   private function handleRequest(Request $request, Programmer $programmer){
     $data = json_decode($request->getContent(), true);
+    $isNew = !$programmer->id;
     
     if ($data === null){
       throw new Exception('Invalid JSON!!!!', $request->getContent());
     }
     
-    $apiProperties = array('nickname', 'avatarNumber', 'tagLine');
+    
+    $apiProperties = array('avatarNumber', 'tagLine');
+    if($isNew){
+      $apiProperties[] = 'nickname';  
+    }
     
     foreach ($apiProperties as $property){
       $val = isset($data[$property]) ? $data[$property] : null;
