@@ -27,6 +27,17 @@ class ProgrammerController extends BaseController {
     $programmer = new Programmer();
     $this->handleRequest($request, $programmer);
     
+    $errors = $this->validate($programmer);
+    if (!empty($errors)){
+      $data = array(
+        'type'   => 'validation_error',
+        'title'  => 'There was a validation error',
+        'errors' => $errors,  
+      );
+      
+      return new JsonResponse($data, 400);
+    }
+    
     $url = $this->generateUrl('api_programmers_show', array(
       'nickname' => $programmer->nickname
     ));
