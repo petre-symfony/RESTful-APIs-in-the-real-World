@@ -38,6 +38,8 @@ class ProgrammerController extends BaseController {
       return new JsonResponse($data, 400);
     }
     
+    $this->save($programmer); 
+    
     $url = $this->generateUrl('api_programmers_show', array(
       'nickname' => $programmer->nickname
     ));
@@ -88,6 +90,7 @@ class ProgrammerController extends BaseController {
     }
     
     $this->handleRequest($request, $programmer);
+    $this->save($programmer); 
     
     $data = $this->serializeProgrammer($programmer);
     
@@ -141,6 +144,5 @@ class ProgrammerController extends BaseController {
     
     $programmer->userId = $this->findUserByUsername('weaverryan')->id;
     
-    $this->save($programmer); 
   }
 }
