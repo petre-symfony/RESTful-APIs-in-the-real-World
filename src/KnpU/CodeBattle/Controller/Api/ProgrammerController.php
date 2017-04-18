@@ -17,6 +17,7 @@ class ProgrammerController extends BaseController {
     $controllers->get('/api/programmers/{nickname}', array($this, 'showAction'))
       ->bind('api_programmers_show');
     $controllers->put('/api/programmers/{nickname}', array($this, 'updateAction'));
+    $controllers->delete('/api/programmers/{nickname}', array($this, 'deleteAction'));
   }
   
   public function newAction(Request $request){
@@ -82,7 +83,16 @@ class ProgrammerController extends BaseController {
     return $response;
   }
   
-  
+  public function deleteAction($nickname){
+    $programmer = $this->getProgrammerRepository()
+      ->findOneByNickname($nickname);
+    
+    if($programmer){
+      $this->delete($programmer);
+    }
+    
+    return new Response(null, 204);
+  }
   private function serializeProgrammer(Programmer $programmer) {
     return  array(
       'nickname' => $programmer->nickname,
