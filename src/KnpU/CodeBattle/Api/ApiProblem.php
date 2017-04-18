@@ -16,6 +16,17 @@ class ApiProblem {
     $this->title = $title;
   }
   
+  public function toArray() {
+    return array_merge(
+      $this->extraData,
+      array(
+        'status' => $this->statusCode,
+        'type' => $this->type,
+        'title' => $this->title  
+      )      
+    );
+  }
+  
   public function set($name, $value){
     $this->extraData[$name] = $value;
   }
