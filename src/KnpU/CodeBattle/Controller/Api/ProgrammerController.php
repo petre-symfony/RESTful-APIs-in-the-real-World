@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use KnpU\CodeBattle\Model\Programmer;
 use KnpU\CodeBattle\Api\ApiProblem;
+use KnpU\CodeBattle\Api\ApiProblemException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ProgrammerController extends BaseController {
@@ -126,7 +127,7 @@ class ProgrammerController extends BaseController {
     if ($data === null){
       $apiProblem = new ApiProblem(400, ApiProblem::TYPE_INVALID_REQUEST_BODY_FORMAT);
       
-      throw new HttpException(400, 'Invalid JSON!!!!');
+      throw new ApiProblemException($apiProblem);
     }
     
     
