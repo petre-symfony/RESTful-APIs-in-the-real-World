@@ -50,4 +50,8 @@ class ApiProblem {
   public function getStatusCode() {
     return $this->statusCode;  
   }
+  
+  public function getTitle() {
+    return $this->title;
+  }
 }
