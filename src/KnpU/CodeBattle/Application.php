@@ -30,6 +30,8 @@ use KnpU\CodeBattle\Battle\BattleManager;
 use Silex\Provider\ValidatorServiceProvider;
 use Symfony\Component\Validator\Mapping\ClassMetadataFactory;
 use Symfony\Component\Validator\Mapping\Loader\AnnotationLoader;
+use KnpU\CodeBattle\Api\ApiProblemException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Application extends SilexApplication {
   public function __construct(array $values = array()) {
@@ -279,8 +281,20 @@ class Application extends SilexApplication {
   }
 
   private function configureListeners(){
-    $this->error(function(){
-      die('does it really work?');
+    $this->error(function(\Exception $e, $statusCode){
+      if(!$e instanceof ApiProblemException){
+        return;
+      }
+      
+      $apiProblem = $e->getApiProblem();
+      $response = new JsonResponse(
+        $apiProblem->toArray(), 
+        $apiProblem->getStatusCode()
+      );
+      $response->headers->set('Content-Type', 'application/problem+json');
+
+      return $response;
+      
     });
   }
 } 
