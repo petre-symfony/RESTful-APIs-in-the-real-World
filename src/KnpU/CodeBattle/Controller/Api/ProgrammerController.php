@@ -124,6 +124,8 @@ class ProgrammerController extends BaseController {
     $isNew = !$programmer->id;
     
     if ($data === null){
+      $apiProblem = new ApiProblem(400, ApiProblem::TYPE_INVALID_REQUEST_BODY_FORMAT);
+      
       throw new HttpException(400, 'Invalid JSON!!!!');
     }
     
