@@ -278,8 +278,9 @@ class Application extends SilexApplication {
     });
   }
 
-  private function configureListeners()
-  {
-    // todo
+  private function configureListeners(){
+    $this->error(function(){
+      die('does it really work?');
+    });
   }
 } 
