@@ -31,6 +31,7 @@ use Silex\Provider\ValidatorServiceProvider;
 use Symfony\Component\Validator\Mapping\ClassMetadataFactory;
 use Symfony\Component\Validator\Mapping\Loader\AnnotationLoader;
 use KnpU\CodeBattle\Api\ApiProblemException;
+use KnpU\CodeBattle\Api\ApiProblem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Application extends SilexApplication {
@@ -281,12 +282,19 @@ class Application extends SilexApplication {
   }
 
   private function configureListeners(){
-    $this->error(function(\Exception $e, $statusCode){
-      if(!$e instanceof ApiProblemException){
+    $app = $this;
+    
+    $this->error(function(\Exception $e, $statusCode) use ($app){
+      if (strpos($app['request']->getPathInfo(), '/api') !== 0){
         return;
       }
+      if($e instanceof ApiProblemException){
+        $apiProblem = $e->getApiProblem();
+      } else {
+        $apiProblem = new ApiProblem($statusCode);
+      }
       
-      $apiProblem = $e->getApiProblem();
+      
       $response = new JsonResponse(
         $apiProblem->toArray(), 
         $apiProblem->getStatusCode()
