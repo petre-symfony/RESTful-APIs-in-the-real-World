@@ -33,6 +33,7 @@ use Symfony\Component\Validator\Mapping\Loader\AnnotationLoader;
 use KnpU\CodeBattle\Api\ApiProblemException;
 use KnpU\CodeBattle\Api\ApiProblem;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Application extends SilexApplication {
   public function __construct(array $values = array()) {
@@ -292,6 +293,10 @@ class Application extends SilexApplication {
         $apiProblem = $e->getApiProblem();
       } else {
         $apiProblem = new ApiProblem($statusCode);
+        
+        if ($e instanceof HttpException){
+          $apiProblem->set('details', $e->getMessage());
+        }
       }
       
       $data = $apiProblem->toArray();
