@@ -50,6 +50,7 @@ class ProgrammerController extends BaseController {
   }
   
   public function showAction($nickname){
+    throw new \Exception('PANIC!!!!');
     $programmer = $this->getProgrammerRepository()
       ->findOneByNickname($nickname);
     
