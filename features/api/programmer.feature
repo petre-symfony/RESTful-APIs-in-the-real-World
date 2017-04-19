@@ -53,6 +53,13 @@ Feature: Programmer
     And the "Content-Type" header should be "application/problem+json"
     And the "type" property should equal "invalid_body_format"
 
+  Scenario: GET a non-existent programmer
+    When I request "GET /api/programmers/Bumble"
+    Then the response status code should be 404
+    And the "Content-Type" header should be "application/problem+json"
+    And the "type" property should equal "about:blank"
+    And the "title" property should equal "Not Found"
+
   Scenario: GET one programmer
     Given the following programmers exist:
       | nickname    | avatarNumber |
