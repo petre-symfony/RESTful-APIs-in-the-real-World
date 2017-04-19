@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use KnpU\CodeBattle\Model\Programmer;
 use KnpU\CodeBattle\Api\ApiProblem;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ProgrammerController extends BaseController {
   protected function addRoutes(ControllerCollection $controllers) {
@@ -123,7 +124,7 @@ class ProgrammerController extends BaseController {
     $isNew = !$programmer->id;
     
     if ($data === null){
-      throw new Exception('Invalid JSON!!!!', $request->getContent());
+      throw new HttpException(400, 'Invalid JSON!!!!');
     }
     
     
